@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-901BRM95ER"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-901BRM95ER');
+    </script>
+    <meta name="google-site-verification" content="1hw61w7jVLZPit53HNzyYtGSkvr3UqZy3RWIN0m57QE">
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NP9RBG97');</script>
+    <!-- End Google Tag Manager -->
+    
+    <title>
+        KCP 휴대폰 본인인증 컨버팅 |
+        
+        SleepyGom</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="현재 회사에서 나온 이슈인데, 하나의 고객이 SNS 로그인을 이용해서 여러개의 계정을 가지고 있어 히스토리가 분산이 되는 이슈가 있었다. 그래서 회사에서 KCP 본인 인증 서비스를 도입하면서 겪은 문제와 해결방법들등을 공유 한다. (더 좋은 방법이 있으면 알려주세요 ㅠㅠ) 문제점 제휴전까지는 참고용으로 알수 있는 문서가 없다.(다른 본인 서비스와 비교를 할">
+<meta property="og:type" content="article">
+<meta property="og:title" content="KCP 휴대폰 본인인증 컨버팅">
+<meta property="og:url" content="https://sungmun.github.io/blog/2020/07/05/Kcp%20%ED%9C%B4%EB%8C%80%ED%8F%B0%20%EB%B3%B8%EC%9D%B8%EC%9D%B8%EC%A6%9D%20Node%20%EA%B8%B0%EB%B0%98%20%EC%BB%A8%EB%B2%84%ED%8C%85/">
+<meta property="og:site_name" content="SleepyGom">
+<meta property="og:description" content="현재 회사에서 나온 이슈인데, 하나의 고객이 SNS 로그인을 이용해서 여러개의 계정을 가지고 있어 히스토리가 분산이 되는 이슈가 있었다. 그래서 회사에서 KCP 본인 인증 서비스를 도입하면서 겪은 문제와 해결방법들등을 공유 한다. (더 좋은 방법이 있으면 알려주세요 ㅠㅠ) 문제점 제휴전까지는 참고용으로 알수 있는 문서가 없다.(다른 본인 서비스와 비교를 할">
+<meta property="og:locale" content="ko_KR">
+<meta property="article:published_time" content="2020-07-05T09:13:20.000Z">
+<meta property="article:modified_time" content="2024-01-19T07:37:03.829Z">
+<meta property="article:author" content="sungmun">
+<meta property="article:tag" content="Node">
+<meta property="article:tag" content="KCP">
+<meta property="article:tag" content="본인인증">
+<meta name="twitter:card" content="summary">
+    
+    
+    
+        
+            <link rel="stylesheet" href="https://sungmun.github.io/blog/css/markdown.css">
+        
+            <link rel="stylesheet" href="https://sungmun.github.io/blog/css/july.css">
+        
+    
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/blog/feed.xml" title="SleepyGom" type="application/atom+xml">
+</head>
+<body>
+
+<div id="banner-outer" class="hidden">
+    <div id="banner-image" style="background-image: url()"></div>
+    <img src="https://www.gravatar.com/avatar/7a585313ed855e8d652cbb3154a6056e?s=300&amp;d=mm&amp;r=g" id="avatar">
+</div>
+
+<div id="menu-outer">
+    <div id="menu-inner">
+        
+            <a class="false" href="https://sungmun.github.io/blog/index.html">Home</a>
+        
+            <a class="false" href="https://sungmun.github.io/blog/archives/index.html">Archives</a>
+        
+            <a class="false" href="https://sungmun.github.io/blog/about/index.html">About</a>
+        
+    </div>
+</div>
+
+<div id="content-outer" class="container">
+    <div id="content-inner">
+        <article id="post">
+    <h1 id="post-title">KCP 휴대폰 본인인증 컨버팅</h1>
+    <time id="post-date" datetime="2020-07-05T09:13:20.000Z">
+        7월 05, 2020
+    </time>
+    <div id="post-content" class="markdown-body">
+        <p>현재 회사에서 나온 이슈인데, 하나의 고객이 SNS 로그인을 이용해서 여러개의 계정을 가지고 있어 히스토리가 분산이 되는 이슈가 있었다. 그래서 회사에서 KCP 본인 인증 서비스를 도입하면서 겪은 문제와 해결방법들등을 공유 한다. (더 좋은 방법이 있으면 알려주세요 ㅠㅠ)</p>
+<h2 id="문제점"><a href="#문제점" class="headerlink" title="문제점"></a>문제점</h2><ul>
+<li>제휴전까지는 참고용으로 알수 있는 문서가 없다.(다른 본인 서비스와 비교를 할수 있는 건더기가 하나도 없어서 그저 운에 기대는 수 밖에 없다.)</li>
+<li>제휴후에 문서를 받고나서 확인을 해보니 서버쪽 예제코드는 php밖에 없다. 심지어 대부분의 SNS로그인처럼 쉽게 호출이 어렵고 암호화된 값을 실시간으로 만들어서 kcp쪽에 보내줘야해서 좀 복잡하다.</li>
+<li>kcp에 보내는 방식도 post로 보내야 해서 리다이렉트를 할 수가 없고 조금 많이 복잡하다.</li>
+<li>암호화 할때, 시간관련 고유값이 있어야 하고, 암호화는 kcp에서 제공하는 바이너리 프로그램을 통해서 암호화가 가능하다.</li>
+<li>물론 해독도 마찬가지로 kcp에서 제공하는 바이너리 프로그램을 통해서 해독이 가능하다.</li>
+</ul>
+<h2 id="해결방안"><a href="#해결방안" class="headerlink" title="해결방안"></a>해결방안</h2><p>우선은 회사에 서버개발자들이 전부 Node.js 개발자라 php코드 그대로 가는 부분은 크게 염두에 두지 않았고, node로 컨버팅이 가능한지에 대한 여부를 주로 확인을 했으며, 가능하면 Docker에서 사용이 가능한지도 같이 확인을 했다.</p>
+<p>다행이도 메인이 되는 바이너리 파일을 Node.js 에서 child_process 라이브러리를 이용하여 호출이 가능했고, Docker 여부도 node 이미지가 리눅스 기반이라 메인이 되는 바이너리 파일이 동작이 되는것을 확인했다.</p>
+<h2 id="작업"><a href="#작업" class="headerlink" title="작업"></a>작업</h2><p>우선은 로컬에서 동작이 불가능해서 크게 2개의 환경을 구축하고 작업을 시작했다.</p>
+<ul>
+<li>우선은 정상적을 동작이 가능한지 확인 하기위한, ubuntu 기반의 개발 서버에 docker 없이 샘플로 준 php로 돌아가는 서버</li>
+<li>Docker 의 Node기반의 서버</li>
+</ul>
+<p>우선 php서버는 1번서버이고 node기반의 서버는 2번 서버라고 하겠다.</p>
+<p>우선 서버에 필요한 페이지는 2개정도 필요하므로 예상이 되서 두개의 페이지를 만들기 시작했다,</p>
+<ol>
+<li>서버로 요청이 오면 바로 kcp에서 요청을 원하는 형식에 맞게 보내는 데이터를 만들고 보내는 페이지 </li>
+<li>kcp서버에서 본인 인증이 보낸 암호화된 데이터를 다시 복호화를 해서 유저의 데이터를 수정후 성공 여부를 앱에서 알수 있도록 해주는 페이지</li>
+</ol>
+<h3 id="요청-페이지"><a href="#요청-페이지" class="headerlink" title="요청 페이지"></a>요청 페이지</h3><p>우선 페이지가 간단하고, 유저에게 보여줄 내용이 없는 페이지로 거의 html이 로드 되자마자, 바로 kcp 서버로 요청을 보내기만 하면 되는 페이지다 보니 간단하게 pug템플릿을 통해서 만들수 있다.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">doctype html</span><br><span class="line">html(lang=&#x27;ko&#x27;)</span><br><span class="line">    head</span><br><span class="line">        title Certification</span><br><span class="line">    body</span><br><span class="line">        form(method=&#x27;post&#x27; action=url)#from</span><br><span class="line">          each val, key in body</span><br><span class="line">            input(name=key, value=val, type=&#x27;hidden&#x27;)</span><br><span class="line">        script(type=&#x27;text/javascript&#x27;).</span><br><span class="line">            document.getElementById(&#x27;from&#x27;).submit();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p> 위 와같이 pug파일을 작성하면, 이 페이지가 로드 되자마자 바로 kcp 인증 페이지로 리다이렉트가 된다. </p>
+<p> 이제 body에 들어가는 값들을 만들어주는데, body값은 pug페이지를 렌더링할때, 인자값에 객체로 보내는 값에 body값을 포함해서 보내면 되며, 대부분의 값은 고정이나, <code>ordr_idxx</code> 값이나 <code>hash_key</code> 값은 실시간으로 만들어 줘야하며, <code>site_cd</code>값은 보안상 환경변수로 사용하다가 같이 넣어줘야 한다. 그리고 <code>Ret_URL</code>값은 환경에 따라서 바뀌는 값이라 환경 변수 처리를 하는게 좋다.</p>
+<p> 그리고 <code>up_hash</code>를 만드는 방법은 날짜와 시간을 조합해서 고유의 <code>ordr_idxx</code>, kcp에서 재공하는 <code>site_cd</code>, 그리고 16자리의 <code>hash_key</code>값을 이용해서 클라이언트에서 사용하는 hash값을 만들어준다.</p>
+<p>이때 위에서 계속 말하는 바이너리 파일은 <code>ct_cli</code> 파일인데 다음과 같이 사용하면 해시값을 만들어 준다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ct_cli lf_CT_CLI__make_hash_data hash_key data </span><br></pre></td></tr></table></figure>
+
+<p>아 그리고 위에 들어가는 <code>data</code>값은 다음과 같이 조합을 해야한다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data=<span class="string">`<span class="subst">$&#123;site_cd&#125;</span><span class="subst">$&#123;ordr_idxx&#125;</span><span class="subst">$&#123;web_siteid&#125;</span><span class="subst">$&#123;user_name&#125;</span><span class="subst">$&#123;year&#125;</span><span class="subst">$&#123;month&#125;</span><span class="subst">$&#123;day&#125;</span><span class="subst">$&#123;sex_code&#125;</span><span class="subst">$&#123;local_code&#125;</span>`</span></span><br></pre></td></tr></table></figure>
+
+<p>위의 데이터에 들어가는 <code>order_idxx</code>값을 만들때의 시간데이터는 요청시의 시간이고, <code>data</code>에 들어가는 <code>$&#123;user_name&#125;$&#123;year&#125;$&#123;month&#125;$&#123;day&#125;$&#123;sex_code&#125;$&#123;local_code&#125;</code>값들은 본인 인증을 요청하는 고객의 정보로, 만약 없으면 넣지 않아도 되는 값이라고 보면 된다,<br>그리고 위의 데이터의 년월일은 포맷이 <code>YYYYMMDD</code>이며, 없는경우 <code>00000000</code>을 넣어주면 된다.</p>
+<p>이 API의 난간은 <code>up_hash</code>를 재대로 만들지 못하면 어디에서 잘못됬는지 찾는데 시간이 걸리는데, 이때, 기존의 php서버에 로그를 찍어서 확인하면 그나마 쉽게 추적이 가능하다.</p>
+<p>그리고 param_opt 변수를 이용할 때, <code>base64</code>로 인코딩을 해줘야 나중에 <code>Ret_URL</code>을 통해서 값을 받을때, 정상적인 응답값을 내려준다.  </p>
+<h3 id="응답-페이지"><a href="#응답-페이지" class="headerlink" title="응답 페이지"></a>응답 페이지</h3><p>이 페이지는 크게 4가지 동작을 해야하는데, 첫번째로는 kcp에서 보내준 데이터중 암호화된 데이터를 체크하는 동작, 암호화된 데이터를 복호화해서 확인하는 작업, 복호화한 데이터를 기반으로 자사 서비스에서 본인 인증여부를 수정하는 작업, 클라이언트에 실패유무를 알여주는 페이지</p>
+<p>우선은 kcp에서 보내준 데이터중 암호화된 데이터를 체크하는 동작은<a href="#%EC%9A%94%EC%B2%AD-%ED%8E%98%EC%9D%B4%EC%A7%80">요청페이지</a> 을 완료했다면 크게 문제없이 완성이 가능하다.</p>
+<p>문제는 암호화된 데이터를 복호화하는 작업이다. 우선은 테스트서버에서만 그런지는 모르겠는데, 불규칙적으로 <code>-4</code>가나온다. 두번째로는 복호화 한 데이터를 객체형태로 만들기가 조금 귀찮다.</p>
+<p>우선 복호화할때 옵션으로 0을 주면 utf-8형식으로 복호화가 되며, 정규식을 이용해서 쿼리 문자열 형식으로 변환후 객체로 변환했다.</p>
+<p>우선 utf-8형식으로 나온 값의 형식은 <code>key=value\u001key=value...</code> 와같은데 정규식으로 <code>/\u001f/g</code>이용해서 <code>&amp;</code>으로 변경 후 <code>querystring</code>의 <code>parse</code>함수를 이용해서 객체로 변환해주면 된다.</p>
+<p>이렇게 복호화한 데이터를 가지고 서버측 데이터를 수정해주면 되며, 수정까지 완료가 되면, 응답용 pug페이지를 이용해서 클라이언트에 알려주면된다.</p>
+<p>이때 클라이언트 단은 크게 3가지가 있는데 일반 웹, Android, IOS 이렇게 3가지 환경이 있는데 이 모든 환경이 다르게 응답을 내려줘야 한다.</p>
+<p>우선 웹에서는 보통 인증을 팝업을 띄어서 작업을 하기 때문에 부모 웹에 성공또는 실패 요청을 날려줘야 하고, Android나 IOS에서는 웹뷰를 띄우기 때문에 Android나 IOS에서 성공또는 실패 이벤트를 받을수 있도록 자바스크립트 이벤트를 날려줘야한다.</p>
+<p>Android</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="string">&#x27;모바일에서 정의한 변수&#x27;</span>.<span class="string">&#x27;모바일에서 정의한 이벤트&#x27;</span>(<span class="string">&#x27;이벤트 내용&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>위와 같이 이용하면 된다. 참고로 Android에서 객체는 못 받아서 객체를 넘겨줘야하는 경우 <code>JSON.sstringify</code>을 이용하여 객체를 문자열로 컨버팅해서 전달해줘야한다.</p>
+<p>IOS </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">webkit</span>.<span class="property">messageHandlers</span>.<span class="string">&#x27;모바일에서 정의한 이벤트&#x27;</span>.<span class="title function_">postMessage</span>(이벤트 내용)</span><br></pre></td></tr></table></figure>
+<p>위와 같이 사용이 가능하며, IOS에서는 객체를 받을수 있으며, 추가적으로는 비어있는 내용으로 함수를 보내는경우 <code>&#123;&#125;</code>이라도 추가를 해줘야 정상적으로 클라이언트에서 받는다.</p>
+<p>Web</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">opener</span>.<span class="title function_">postMessage</span>(이벤트 내용,<span class="string">&#x27;*&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>위와 같이 사용이 가능한데, 위 방식은 웹에서 popup을 이용하여 요청을 하며, 도메인이 다른경우에 cors 문제가 생겨서 위처럼 하였다. 이때, 이벤트 내용으로 민감한 내용은 보내지 않는겻을 추천한다.</p>
+
+    </div>
+</article>
+
+<div id="paginator">
+    
+</div>
+
+    </div>
+</div>
+
+<div id="bottom-outer">
+    <div id="bottom-inner">
+        2019-2024 sungmun 
+    </div>
+</div>
+
+<div id="to-top">
+    <i class="iconfont icon-up"></i>
+</div>
+
+
+    
+        <script src="https://sungmun.github.io/blog/js/jquery-3.4.1.min.js"></script>
+    
+        <script src="https://sungmun.github.io/blog/js/highlight-9.13.1.min.js"></script>
+    
+        <script src="https://sungmun.github.io/blog/js/transition.js"></script>
+    
+        <script src="https://sungmun.github.io/blog/js/smooth-scroll.min.js"></script>
+    
+
+
+
+    <script>
+      $(function () {
+        $('#banner-outer').addClass('fade-out')
+        $('#menu-outer').addClass('fade-show')
+
+        $('pre').each(function (i, block) {
+          hljs.highlightBlock(block);
+        });
+      })
+    </script>
+
+
+<script>
+  $(function () {
+    $(window).scroll(function () {
+      if ($(window).scrollTop() > 150) {
+        $("#to-top").fadeIn();
+      } else {
+        $("#to-top").fadeOut();
+      }
+    });
+    $("#to-top").click(function () {
+      $("body,html").animate({scrollTop: 0}, 500);
+      return false;
+    })
+  })
+</script>
+</body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NP9RBG97" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+</html>
